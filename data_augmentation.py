@@ -23,7 +23,7 @@ dst_img_count = 1
 img_dir = '../data_affect/train/'
 no_aug_images = 6
 
-while(img_count <= no_images):
+while(img_count <= nb_train_samples):
     filename = img_dir + '/image' + str(img_count).zfill(7) + '.jpg'
     prefix_str = 'image_' + str(img_count)
     img = load_img(filename)
@@ -33,8 +33,6 @@ while(img_count <= no_images):
     img_count = img_count + 1
     l = [1]
     label = np.array(l)
-    print(x1.shape)
-    print(label.shape)
 
     i = 0
     os.mkdir(parent_folder)
@@ -53,4 +51,4 @@ while(img_count <= no_images):
         remove(src_filename)
         dst_img_count = dst_img_count + 1
 
-    os.rmdir(parent_folder)    
+    os.rmdir(parent_folder)
