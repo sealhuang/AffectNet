@@ -25,7 +25,5 @@ while(count < no_images):
     label = np.array(l)
     print(x1.shape)
     print(label.shape)
-    for batch in datagen.flow(x1, y=label,batch_size=1, save_to_dir='data_augment', save_prefix='image', save_format='jpeg'):
-        i += 1
-        if i > 10:
-            break  # otherwise the generator would loop indefinitely
+    (aug_x,aug_y) = datagen.flow(x1, y=label,batch_size=1, save_to_dir='data_augment', save_prefix='image', save_format='jpeg')
+    
