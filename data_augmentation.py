@@ -24,7 +24,7 @@ no_aug_images = 5
 
 while(img_count < no_images):
     filename = img_dir + '/image' + str(img_count).zfill(7) + '.jpg'
-    prefix_str = 'image_' + str(count)
+    prefix_str = 'image_' + str(img_count)
     img = load_img(filename)
     x = img_to_array(img)
     x1 = []
@@ -52,4 +52,4 @@ while(img_count < no_images):
         remove(src_filename)
         dst_img_count = dst_img_count + 1
 
-    os.rmdir(parent_folder)    
+    os.rmdir(parent_folder)
