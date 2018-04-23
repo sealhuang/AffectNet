@@ -21,7 +21,7 @@ while(count < no_images):
     x1 = x.reshape((1,) + x.shape)
     count = count + 1
     i = 0
-    l = 1
+    l = [1]
     label = np.array(l)
     print(x1.shape)
     print(label.shape)
