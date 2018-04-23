@@ -2,6 +2,7 @@ from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_a
 import numpy as np
 from os import listdir,remove
 import shutil
+import os
 
 parent_folder = 'buffer/'
 destination_folder = 'data_augment/'
