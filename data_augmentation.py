@@ -20,7 +20,9 @@ while(count < no_images):
     x = x.reshape((1,) + x.shape)
     count = count + 1
     i = 0
-    for batch in datagen.flow(x, y=1,batch_size=1, save_to_dir='data_augment', save_prefix='image', save_format='jpeg'):
+    l = 1
+    label = np.array(l)
+    for batch in datagen.flow(x, y=label,batch_size=1, save_to_dir='data_augment', save_prefix='image', save_format='jpeg'):
         i += 1
         if i > 10:
             break  # otherwise the generator would loop indefinitely
