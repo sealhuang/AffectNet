@@ -23,6 +23,8 @@ while(count < no_images):
     i = 0
     l = 1
     label = np.array(l)
+    print(x1.shape)
+    print(label.shape)
     for batch in datagen.flow(x1, y=label,batch_size=1, save_to_dir='data_augment', save_prefix='image', save_format='jpeg'):
         i += 1
         if i > 10:
