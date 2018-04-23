@@ -17,12 +17,13 @@ while(count < no_images):
     filename = img_dir + '/image' + str(count).zfill(7) + '.jpg'
     img = load_img(filename)
     x = img_to_array(img)
-    x = x.reshape((1,) + x.shape)
+    x1 = []
+    x1 = x.reshape((1,) + x.shape)
     count = count + 1
     i = 0
     l = 1
     label = np.array(l)
-    for batch in datagen.flow(x, y=label,batch_size=1, save_to_dir='data_augment', save_prefix='image', save_format='jpeg'):
+    for batch in datagen.flow(x1, y=label,batch_size=1, save_to_dir='data_augment', save_prefix='image', save_format='jpeg'):
         i += 1
         if i > 10:
             break  # otherwise the generator would loop indefinitely
