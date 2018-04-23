@@ -17,13 +17,13 @@ datagen = ImageDataGenerator(
         fill_mode='nearest')
 
 nb_train_samples = 42553
-no_images = 10
+no_images = 100
 img_count = 1
 dst_img_count = 1
 img_dir = '../data_affect/train/'
-no_aug_images = 5
+no_aug_images = 6
 
-while(img_count < no_images):
+while(img_count <= no_images):
     filename = img_dir + '/image' + str(img_count).zfill(7) + '.jpg'
     prefix_str = 'image_' + str(img_count)
     img = load_img(filename)
@@ -37,10 +37,11 @@ while(img_count < no_images):
     print(label.shape)
 
     i = 0
+    os.rmdir(parent_folder)
     os.mkdir(parent_folder)
     for x_batch, y_batch in datagen.flow(x1, y=label,batch_size=1, save_to_dir=parent_folder, save_prefix= prefix_str, save_format='jpeg'):
         i+= 1
-        if i > 5:
+        if i > (no_aug_images-1):
             break
 
     files = listdir(parent_folder)
@@ -52,5 +53,3 @@ while(img_count < no_images):
         shutil.copyfile(src_filename,dst_filename)
         remove(src_filename)
         dst_img_count = dst_img_count + 1
-
-    os.rmdir(parent_folder)
