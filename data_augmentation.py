@@ -38,7 +38,7 @@ while(img_count < no_images):
 
     i = 0
     os.mkdir(parent_folder)
-    for x_batch, y_batch in datagen.flow(x1, y=label,batch_size=1, save_to_dir='parent_folder', save_prefix= prefix_str, save_format='jpeg'):
+    for x_batch, y_batch in datagen.flow(x1, y=label,batch_size=1, save_to_dir=parent_folder, save_prefix= prefix_str, save_format='jpeg'):
         i+= 1
         if i > 5:
             break
