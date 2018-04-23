@@ -25,4 +25,6 @@ while(count < no_images):
     label = np.array(l)
     print(x1.shape)
     print(label.shape)
-    [aug_x,aug_y] = datagen.flow(x1, y=label,batch_size=1, save_to_dir='data_augment', save_prefix='image', save_format='jpeg')
+    for x_batch, y_batch in datagen.flow(x1, y=label,batch_size=1, save_to_dir='data_augment', save_prefix='image', save_format='jpeg'):
+        print(x_batch.shape)
+        print(y_batch.shape)
