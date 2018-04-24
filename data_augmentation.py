@@ -20,7 +20,7 @@ nb_train_samples = 42553
 no_images = 12000
 img_count = 6001
 dst_img_count = 36001
-img_dir = '../data_affect/train/'
+img_dir = '../data_affect/train'
 no_aug_images = 6
 
 while(img_count <= no_images):
