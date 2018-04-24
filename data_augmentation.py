@@ -22,6 +22,7 @@ img_count = 1
 dst_img_count = 1
 img_dir = '../data_affect/train'
 no_aug_images = 6
+aug_images_list = []
 
 while(img_count <= no_images):
     filename = img_dir + '/image' + str(img_count).zfill(7) + '.jpg'
@@ -52,5 +53,15 @@ while(img_count <= no_images):
         shutil.copyfile(src_filename,dst_filename)
         remove(src_filename)
         dst_img_count = dst_img_count + 1
+        files_count = files_count + 1
+
+    files_count -= 1
+    aug_images_list += [files_count]
 
     os.rmdir(parent_folder)
+
+thefile = open('aug_list.txt', 'w')
+for item in aug_images_list:
+  thefile.write("%s\n" % item)
+
+thefile.close()
