@@ -47,6 +47,7 @@ while(img_count <= no_images):
 
     for name in files:
         dst_filename = destination_folder + 'image' + str(dst_img_count).zfill(7) + '.jpeg'
+        print(dst_filename)
         src_filename = parent_folder + str(name)
         shutil.copyfile(src_filename,dst_filename)
         remove(src_filename)
