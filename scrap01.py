@@ -58,7 +58,7 @@ while(img_count <= no_images):
     os.rmdir(parent_folder)
 
 thefile = open('aug_list.txt', 'w')
-for item in thelist:
+for item in aug_images_list:
   thefile.write("%s\n" % item)
 
 thefile.close()
