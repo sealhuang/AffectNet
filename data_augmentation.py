@@ -17,13 +17,13 @@ datagen = ImageDataGenerator(
         fill_mode='nearest')
 
 nb_train_samples = 42553
-no_images = 100
+no_images = 6000
 img_count = 1
 dst_img_count = 1
 img_dir = '../data_affect/train/'
 no_aug_images = 6
 
-while(img_count <= nb_train_samples):
+while(img_count <= no_images):
     filename = img_dir + '/image' + str(img_count).zfill(7) + '.jpg'
     prefix_str = 'image_' + str(img_count)
     img = load_img(filename)
