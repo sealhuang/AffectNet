@@ -17,9 +17,9 @@ datagen = ImageDataGenerator(
         fill_mode='nearest')
 
 nb_train_samples = 42553
-no_images = 4000
-img_count = 1
-dst_img_count = 1
+no_images = 8000
+img_count = 4001
+dst_img_count = 23998
 img_dir = '../data_affect/train'
 no_aug_images = 6
 aug_images_list = []
@@ -60,7 +60,7 @@ while(img_count <= no_images):
 
     os.rmdir(parent_folder)
 
-thefile = open('aug_list.txt', 'w')
+thefile = open('aug_list.txt', 'a+')
 for item in aug_images_list:
   thefile.write("%s\n" % item)
 
