@@ -22,6 +22,7 @@ img_count = 428
 dst_img_count = 1
 img_dir = '../data_affect/train'
 no_aug_images = 6
+aug_images_list = []
 
 while(img_count <= no_images):
     filename = img_dir + '/image' + str(img_count).zfill(7) + '.jpg'
@@ -32,12 +33,10 @@ while(img_count <= no_images):
     x1 = []
     x1 = x.reshape((1,) + x.shape)
     img_count = img_count + 1
-    l = [1]
-    label = np.array(l)
 
     i = 0
     os.mkdir(parent_folder)
-    for x_batch, y_batch in datagen.flow(x1, y=label,batch_size=1, save_to_dir=parent_folder, save_prefix= prefix_str, save_format='jpeg'):
+    for x_batch, y_batch in datagen.flow(x,batch_size=1, save_to_dir=parent_folder, save_prefix= prefix_str, save_format='jpeg'):
         i+= 1
         if i > (no_aug_images-1):
             break
@@ -52,5 +51,14 @@ while(img_count <= no_images):
         shutil.copyfile(src_filename,dst_filename)
         remove(src_filename)
         dst_img_count = dst_img_count + 1
+        files_count = files_count + 1
+
+    aug_images_list += [files_count]
 
     os.rmdir(parent_folder)
+
+thefile = open('aug_list.txt', 'w')
+for item in thelist:
+  thefile.write("%s\n" % item)
+
+thefile.close()
