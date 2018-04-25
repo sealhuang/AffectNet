@@ -17,9 +17,9 @@ datagen = ImageDataGenerator(
         fill_mode='nearest')
 
 nb_train_samples = 42553
-no_images = 32000
-img_count = 27001
-dst_img_count = 161966
+no_images = 37000
+img_count = 32001
+dst_img_count = 191962
 img_dir = '../data_affect/train'
 no_aug_images = 6
 aug_images_list = []
