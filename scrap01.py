@@ -52,7 +52,7 @@ def train_generator():
 
         while(image_count < batch_size and image_id < nb_train_samples):
             try:
-                filename = img_dir + '/image' + str(image_id).zfill(7) + '.jpg'
+                filename = img_dir + '/image' + str(image_id).zfill(7) + '.jpeg'
                 body_img = image.load_img(filename, target_size=(img_height,img_width))
                 x = image.img_to_array(body_img)
                 x = np.expand_dims(x, axis=0)
