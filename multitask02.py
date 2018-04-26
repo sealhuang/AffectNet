@@ -35,7 +35,7 @@ def train_generator():
     img_dir = '../augmented_images/train'
     label_file = mat_load.loadmat('da_train_labels_5000')
     label_data = label_file['da_train_labels']
-    landmark_data = label_file['landmark_labels']
+    #landmark_data = label_file['landmark_labels']
     train_batch_size = batch_size
     image_id = 1
     train_index_thr = batch_size * int(nb_train_samples/batch_size)
@@ -83,7 +83,7 @@ def val_generator():
     img_dir = '../data_affect/val'
     label_file = mat_load.loadmat('landmark_val_labels')
     label_data = label_file['val_label']
-    landmark_data = label_file['landmark_labels']
+    #landmark_data = label_file['landmark_labels']
     train_batch_size = batch_size
     image_id = 1
     train_index_thr = batch_size * int(nb_validation_samples/batch_size)
