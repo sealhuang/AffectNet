@@ -32,7 +32,7 @@ batch_size = 64
 #Step 1: Train generator
 def train_generator():
     #full_image_dir = 'keras_data/full_image/train'
-    img_dir = '../augmented_images/train'
+    img_dir = '../augmented_images'
     label_file = mat_load.loadmat('da_train_labels_5000')
     label_data = label_file['da_train_labels']
     #landmark_data = label_file['landmark_labels']
