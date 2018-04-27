@@ -37,7 +37,6 @@ def val_generator():
             try:
 
                 img_label = label_data[image_id-1][0]
-                landmark_label = label_data[image_id-1][1:]
                 batch_labels += [img_label]
                 image_count = image_count + 1
                 image_id = image_id + 1
@@ -52,7 +51,7 @@ def val_generator():
         yield (batch_labels)
 
 
-[batch_labels] = next(val_generator())
+batch_labels = next(val_generator())
 print(batch_labels.shape)
 
 for i in range(64):
