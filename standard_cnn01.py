@@ -57,7 +57,7 @@ def train_generator():
                 body_img = image.load_img(filename, target_size=(img_height,img_width))
                 x = image.img_to_array(body_img)
                 x = np.expand_dims(x, axis=0)
-                feature01 = preprocess_input(x)
+                feature01 = preprocess_input(x,mode = 'tf')
                 img_label = label_data[image_id-1][0]
 
                 landmark_label = label_data[image_id-1][1:]
@@ -86,7 +86,7 @@ def val_generator():
     #landmark_data = label_file['landmark_labels']
     train_batch_size = batch_size
     image_id = 1
-    train_index_thr = batch_size * int(nb_validation_samples/batch_size)
+    val_index_thr = batch_size * int(nb_validation_samples/batch_size)
 
     while True:
         batch_labels = []
@@ -94,7 +94,7 @@ def val_generator():
         batch_feature = []
         image_count = 0
 
-        if((image_id+batch_size) > train_index_thr):
+        if((image_id+batch_size) > val_index_thr):
             image_id = 1
 
         while(image_count < batch_size and image_id < nb_validation_samples):
@@ -103,7 +103,7 @@ def val_generator():
                 body_img = image.load_img(filename, target_size=(img_height,img_width))
                 x = image.img_to_array(body_img)
                 x = np.expand_dims(x, axis=0)
-                feature01 = preprocess_input(x)
+                feature01 = preprocess_input(x,mode = 'tf')
 
                 img_label = label_data[image_id-1][0]
                 landmark_label = label_data[image_id-1][1:]
@@ -147,6 +147,7 @@ predictions = Dense(9, activation='softmax', name='predictions')(x)
 discrete_top_model = Model(inputs = output_from_inception_model, outputs = predictions)
 
 final_model = Model(inputs = inception_model.input,outputs = discrete_top_model(inception_model.output))
+final_model.summary()
 
 final_model_json = final_model.to_json()
 with open("singleTask_inception_top_layer_512_512_256_json.json", "w") as json_file:
