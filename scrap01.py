@@ -55,4 +55,4 @@ batch_labels = next(val_generator())
 print(batch_labels.shape)
 
 for i in range(64):
-    print(str(i) + ': ' + batch_labels[i])
+    print(str(i) + ': ' + str(batch_labels[i]))
