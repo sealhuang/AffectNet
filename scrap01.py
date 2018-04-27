@@ -17,8 +17,8 @@ batch_size = 64
 def val_generator():
     #full_image_dir = 'keras_data/full_image/train'
     img_dir = '../data_affect/val'
-    label_file = mat_load.loadmat('landmark_val_labels')
-    label_data = label_file['val_label']
+    label_file = mat_load.loadmat('train_labels_5000')
+    label_data = label_file['train_label']
     #landmark_data = label_file['landmark_labels']
     train_batch_size = batch_size
     image_id = 1
