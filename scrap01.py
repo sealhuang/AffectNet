@@ -46,7 +46,7 @@ def val_generator():
 
                 continue
 
-        batch_labels = to_categorical(batch_labels,9)
+        #batch_labels = to_categorical(batch_labels,9)
         batch_labels = np.array(batch_labels)
 
         yield (batch_labels)
@@ -54,3 +54,6 @@ def val_generator():
 
 [batch_labels] = next(val_generator())
 print(batch_labels.shape)
+
+for i in range(64):
+    print(batch_labels[i])
