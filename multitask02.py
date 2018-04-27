@@ -199,10 +199,10 @@ coninuous_top_model = Model(inputs = output_from_vgg16_model, outputs = continuo
 final_model = Model(inputs = vgg16_model.input,outputs = [discrete_top_model(vgg16_model.output),coninuous_top_model(vgg16_model.output)])
 
 # TODO Step 3: compiling and training
-optimizer_adam = optimizers.Adam(lr = 0.00001)
+optimizer_adam = optimizers.Adam(lr = 0.0001)
 optimizer_rmsprop = optimizers.RMSprop(lr=0.00001)
 final_model.compile(loss = ['categorical_crossentropy','mean_squared_error'], \
-                     optimizer = optimizer_adam, metrics=['accuracy','mae'])
+                     optimizer = optimizer_adam, metrics=['accuracy'])
 
 
 # checkpoint
