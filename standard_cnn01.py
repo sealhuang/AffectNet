@@ -129,7 +129,7 @@ def val_generator():
 inception_model = inception_v3.InceptionV3(include_top = False, weights = 'imagenet',input_shape = (img_height,img_width,depth))
 
 for layers in inception_model.layers:
-    layers.trainable = False
+    layers.trainable = True
 
 data_shape = inception_model.output_shape[1:]
 output_from_inception_model = Input(shape = (data_shape))
@@ -155,7 +155,7 @@ with open("singleTask_inception_top_layer_512_512_256_json.json", "w") as json_f
 
 
 # TODO Step 3: compiling and training
-optimizer_adam = optimizers.Adam(lr = 0.001)
+optimizer_adam = optimizers.Adam(lr = 0.00001)
 optimizer_rmsprop = optimizers.RMSprop(lr=0.00001)
 final_model.compile(loss = ['categorical_crossentropy'], \
                      optimizer = optimizer_adam, metrics=['accuracy'])
