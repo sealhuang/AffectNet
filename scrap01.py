@@ -22,7 +22,7 @@ from keras.callbacks import ModelCheckpoint
 # TODO: check on the size of input images MOON paper
 img_width, img_height, depth = 224,224,3
 img_input = Input(shape=(img_height,img_width,depth))
-nb_train_samples = 255250
+nb_train_samples = 297803
 #nb_train_samples = 1000
 nb_validation_samples = 4500
 #nb_validation_samples = 1200
@@ -32,9 +32,9 @@ batch_size = 64
 #Step 1: Train generator
 def train_generator():
     #full_image_dir = 'keras_data/full_image/train'
-    img_dir = '../augmented_images'
-    label_file = mat_load.loadmat('da_train_labels_5000')
-    label_data = label_file['da_train_labels']
+    img_dir = '../data_affect/train_aug'
+    label_file = mat_load.loadmat('da_train_aug_labels_5000')
+    label_data = label_file['train_aug_labels']
     #landmark_data = label_file['landmark_labels']
     train_batch_size = batch_size
     image_id = 1
@@ -52,7 +52,12 @@ def train_generator():
 
         while(image_count < batch_size and image_id < nb_train_samples):
             try:
-                filename = img_dir + '/image' + str(image_id).zfill(7) + '.jpeg'
+                if image_id <= 42553:
+                    str_format = 'jpg'
+                else:
+                    str_format = 'jpeg'
+
+                filename = img_dir + '/image' + str(image_id).zfill(7) + str_format
                 body_img = image.load_img(filename, target_size=(img_height,img_width))
                 x = image.img_to_array(body_img)
                 x = np.expand_dims(x, axis=0)
@@ -76,6 +81,7 @@ def train_generator():
         batch_feature = np.squeeze(batch_feature)
 
         yield (batch_feature,[batch_labels,batch_landmark_labels])
+
 
 [feature01,[labels01,c_labels02]] = next(train_generator())
 print(feature01.shape)
