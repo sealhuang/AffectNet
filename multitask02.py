@@ -22,7 +22,7 @@ from keras.callbacks import ModelCheckpoint
 # TODO: check on the size of input images MOON paper
 img_width, img_height, depth = 224,224,3
 img_input = Input(shape=(img_height,img_width,depth))
-nb_train_samples = 255250
+nb_train_samples = 297803
 #nb_train_samples = 1000
 nb_validation_samples = 4500
 #nb_validation_samples = 1200
@@ -32,9 +32,9 @@ batch_size = 64
 #Step 1: Train generator
 def train_generator():
     #full_image_dir = 'keras_data/full_image/train'
-    img_dir = '../augmented_images'
-    label_file = mat_load.loadmat('da_train_labels_5000')
-    label_data = label_file['da_train_labels']
+    img_dir = '../data_affect/train_aug'
+    label_file = mat_load.loadmat('da_train_aug_labels_5000')
+    label_data = label_file['train_aug_labels']
     #landmark_data = label_file['landmark_labels']
     train_batch_size = batch_size
     image_id = 1
@@ -52,7 +52,12 @@ def train_generator():
 
         while(image_count < batch_size and image_id < nb_train_samples):
             try:
-                filename = img_dir + '/image' + str(image_id).zfill(7) + '.jpeg'
+                if image_id <= 42553:
+                    str_format = 'jpg'
+                else:
+                    str_format = 'jpeg'
+
+                filename = img_dir + '/image' + str(image_id).zfill(7) + str_format
                 body_img = image.load_img(filename, target_size=(img_height,img_width))
                 x = image.img_to_array(body_img)
                 x = np.expand_dims(x, axis=0)
@@ -171,11 +176,12 @@ data_shape = vgg16_model.output_shape[1:]
 output_from_vgg16_model = Input(shape = (data_shape))
 
 x = Flatten(name='flatten')(output_from_vgg16_model)
-x = Dense(512, activation='relu', name='t1_fc3')(x)
+x = Dense(1024, activation='relu', name='t1_fc3')(x)
 #x = Dropout(0.6)(x)
 x = Dense(512, activation='relu', name='t1_fc1')(x)
 x = Dropout(0.6)(x)
 x = Dense(256, activation='relu', name='t1_fc2')(x)
+x = Dropout(0.6)(x)
 predictions = Dense(9, activation='softmax', name='predictions')(x)
 
 discrete_top_model = Model(inputs = output_from_vgg16_model, outputs = predictions)
@@ -185,6 +191,7 @@ x = Flatten(name='flatten')(output_from_vgg16_model)
 x = Dense(512, activation='relu', name='t2_fc1')(x)
 x = Dropout(0.6)(x)
 x = Dense(128, activation='relu', name='t2_fc2')(x)
+x = Dropout(0.6)(x)
 continuous_prediction = Dense(2, activation='tanh', name='continuous_prediction')(x)
 
 coninuous_top_model = Model(inputs = output_from_vgg16_model, outputs = continuous_prediction)
@@ -192,10 +199,10 @@ coninuous_top_model = Model(inputs = output_from_vgg16_model, outputs = continuo
 final_model = Model(inputs = vgg16_model.input,outputs = [discrete_top_model(vgg16_model.output),coninuous_top_model(vgg16_model.output)])
 
 # TODO Step 3: compiling and training
-optimizer_adam = optimizers.Adam(lr = 0.0001)
+optimizer_adam = optimizers.Adam(lr = 0.00001)
 optimizer_rmsprop = optimizers.RMSprop(lr=0.00001)
 final_model.compile(loss = ['categorical_crossentropy','mean_squared_error'], \
-                     optimizer = optimizer_adam, metrics=['accuracy'])
+                     optimizer = optimizer_adam, metrics=['accuracy','mae'])
 
 
 # checkpoint
@@ -213,8 +220,8 @@ n_val_steps = nb_validation_samples/batch_size
 final_model.fit_generator(generator=train_generator(),steps_per_epoch=n_steps_per_epoch,callbacks=callbacks_list, \
                           epochs=nb_epoch,validation_data = val_generator(),validation_steps=n_val_steps, \
                           initial_epoch=0)
-final_model.save_weights('mulitask01_e50_t512_512_256.h5')
+final_model.save_weights('mulitask01_e50_t1024_512_256.h5')
 
 final_model_json = final_model.to_json()
-with open("vgg16_top_layer_512_512_256_json.json", "w") as json_file:
+with open("vgg16_top_layer_1024_512_256_json.json", "w") as json_file:
     json_file.write(final_model_json)
