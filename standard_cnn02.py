@@ -133,7 +133,7 @@ def val_generator():
 inception_model = inception_v3.InceptionV3(include_top = False, weights = 'imagenet',input_shape = (img_height,img_width,depth))
 
 for layers in inception_model.layers:
-    layers.trainable = True
+    layers.trainable = False
 
 data_shape = inception_model.output_shape[1:]
 output_from_inception_model = Input(shape = (data_shape))
