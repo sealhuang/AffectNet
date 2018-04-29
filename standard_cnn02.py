@@ -6,7 +6,7 @@ np.random.seed(1337)  # for reproducibility
 import numpy.random as rng
 from keras.models import Sequential, Model, model_from_json, load_model
 from keras.layers import Dense, Dropout, Input, Lambda
-from keras import optimizers
+from keras import optimizers,regularizers
 from keras import backend as K
 from keras.layers import Conv2D, MaxPooling2D,concatenate,GlobalAveragePooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense,Input
@@ -133,18 +133,18 @@ def val_generator():
 inception_model = inception_v3.InceptionV3(include_top = False, weights = 'imagenet',input_shape = (img_height,img_width,depth))
 
 for layers in inception_model.layers:
-    layers.trainable = False
+    layers.trainable = True
 
 data_shape = inception_model.output_shape[1:]
 output_from_inception_model = Input(shape = (data_shape))
 base_model = Model(inputs = inception_model.input, outputs = inception_model.output,name='base_model')
 
 x = GlobalAveragePooling2D(name='avg_pool')(output_from_inception_model)
-x = Dense(512, activation='relu', name='t1_fc3')(x)
+x = Dense(512, activation='relu', name='t1_fc1',kernel_regularizer = regularizers.l2(0.01),activity_regularizer=regularizers.l1(0.01))(x)
 #x = Dropout(0.6)(x)
-x = Dense(512, activation='relu', name='t1_fc1')(x)
-x = Dropout(0.6)(x)
-x = Dense(256, activation='relu', name='t1_fc2')(x)
+x = Dense(512, activation='relu', name='t1_fc2',kernel_regularizer = regularizers.l2(0.01),activity_regularizer=regularizers.l1(0.01))(x)
+x = Dropout(0.7)(x)
+x = Dense(256, activation='relu', name='t1_fc3')(x)
 x = Dropout(0.6)(x)
 predictions = Dense(9, activation='softmax', name='predictions')(x)
 
@@ -154,7 +154,7 @@ final_model = Model(inputs = inception_model.input,outputs = discrete_top_model(
 final_model.summary()
 
 final_model_json = final_model.to_json()
-with open("singleTask_inception_top_layer_512_512_256_json.json", "w") as json_file:
+with open("singleTask_inception_top_layer_512_512_256_regularization_json.json", "w") as json_file:
     json_file.write(final_model_json)
 
 
@@ -169,7 +169,7 @@ final_model.compile(loss = ['categorical_crossentropy'], \
 outputFolder = './output-affect-aug'
 if not os.path.exists(outputFolder):
     os.makedirs(outputFolder)
-filepath=outputFolder+"/weights_inception_t512_t512_t256-{epoch:03d}-{val_loss:.2f}.hdf5"
+filepath=outputFolder+"/weights_inception_reularization_t512_t512_t256-{epoch:03d}-{val_loss:.2f}.hdf5"
 checkpoint = ModelCheckpoint(filepath, monitor='val_loss', verbose=1, \
                              save_best_only=False, save_weights_only=True, \
                              mode='auto', period=1)
