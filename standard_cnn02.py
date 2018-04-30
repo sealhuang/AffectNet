@@ -133,7 +133,7 @@ def val_generator():
 inception_model = inception_v3.InceptionV3(include_top = False, weights = 'imagenet',input_shape = (img_height,img_width,depth))
 
 for layers in inception_model.layers:
-    layers.trainable = False
+    layers.trainable = True
 
 
 data_shape = inception_model.output_shape[1:]
@@ -153,7 +153,7 @@ predictions = Dense(9, activation='softmax', name='predictions')(x)
 discrete_top_model = Model(inputs = output_from_inception_model, outputs = predictions)
 
 final_model = Model(inputs = inception_model.input,outputs = discrete_top_model(inception_model.output))
-final_model.summary()
+#final_model.summary()
 
 final_model_json = final_model.to_json()
 with open("singleTask_inception_top_layer_512_512_256_regularization_json.json", "w") as json_file:
