@@ -145,7 +145,7 @@ x = Dense(512, activation='relu', name='t1_fc1',kernel_regularizer = regularizer
 #x = Dropout(0.6)(x)
 x = Dense(512, activation='relu', name='t1_fc2',kernel_regularizer = regularizers.l2(0.01))(x)
 x = Dropout(0.6)(x)
-x = Dense(256, activation='relu', name='t1_fc3',kernel_regularizer = regularizers.l2(0.001))(x)
+x = Dense(256, activation='relu', name='t1_fc3',kernel_regularizer = regularizers.l2(0.01))(x)
 x = Dropout(0.6)(x)
 predictions = Dense(9, activation='softmax', name='predictions')(x)
 
