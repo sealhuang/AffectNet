@@ -141,7 +141,6 @@ output_from_inception_model = Input(shape = (data_shape))
 base_model = Model(inputs = inception_model.input, outputs = inception_model.output,name='base_model')
 
 x = GlobalAveragePooling2D(name='avg_pool')(output_from_inception_model)
-x = Dense(1024, activation='relu', name='t1_fc0',kernel_regularizer = regularizers.l2(0.01))(x)
 x = Dense(512, activation='relu', name='t1_fc1',kernel_regularizer = regularizers.l2(0.01))(x)
 #x = Dropout(0.6)(x)
 x = Dense(512, activation='relu', name='t1_fc2',kernel_regularizer = regularizers.l2(0.01))(x)
@@ -161,7 +160,7 @@ with open("singleTask_inception_top_layer_512_512_256_regularization_json.json",
 
 
 # TODO Step 3: compiling and training
-optimizer_adam = optimizers.Adam(lr = 0.001)
+optimizer_adam = optimizers.Adam(lr = 0.00001)
 optimizer_rmsprop = optimizers.RMSprop(lr=0.00001)
 final_model.compile(loss = ['categorical_crossentropy'], \
                      optimizer = optimizer_adam, metrics=['accuracy'])
