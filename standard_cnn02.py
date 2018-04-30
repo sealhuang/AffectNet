@@ -160,7 +160,7 @@ with open("singleTask_inception_top_layer_512_512_256_regularization_json.json",
 
 
 # TODO Step 3: compiling and training
-optimizer_adam = optimizers.Adam(lr = 0.0001)
+optimizer_adam = optimizers.Adam(lr = 0.00001)
 optimizer_rmsprop = optimizers.RMSprop(lr=0.00001)
 final_model.compile(loss = ['categorical_crossentropy'], \
                      optimizer = optimizer_adam, metrics=['accuracy'])
