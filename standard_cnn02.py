@@ -22,8 +22,8 @@ from keras.callbacks import ModelCheckpoint
 # TODO: check on the size of input images MOON paper
 img_width, img_height, depth = 224,224,3
 img_input = Input(shape=(img_height,img_width,depth))
-#nb_train_samples = 42553
-nb_train_samples = 297803
+nb_train_samples = 42553
+#nb_train_samples = 297803
 nb_validation_samples = 4500
 #nb_validation_samples = 1200
 nb_epoch = 50
@@ -54,8 +54,8 @@ def train_generator():
             try:
                 if image_count <= 42553:
                     str_format = '.jpg'
-                else:
-                    str_format = '.jpeg'
+                #else:
+                #    str_format = '.jpeg'
 
                 filename = img_dir + '/image' + str(image_id).zfill(7) + str_format
                 body_img = image.load_img(filename, target_size=(img_height,img_width))
@@ -133,7 +133,7 @@ def val_generator():
 inception_model = inception_v3.InceptionV3(include_top = False, weights = 'imagenet',input_shape = (img_height,img_width,depth))
 
 for layers in inception_model.layers:
-    layers.trainable = True
+    layers.trainable = False
 
 
 data_shape = inception_model.output_shape[1:]
