@@ -54,8 +54,8 @@ def train_generator():
             try:
                 if image_count <= 42553:
                     str_format = '.jpg'
-                #else:
-                #    str_format = '.jpeg'
+                else:
+                    str_format = '.jpeg'
 
                 filename = img_dir + '/image' + str(image_id).zfill(7) + str_format
                 body_img = image.load_img(filename, target_size=(img_height,img_width))
