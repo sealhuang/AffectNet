@@ -22,8 +22,8 @@ from keras.callbacks import ModelCheckpoint
 # TODO: check on the size of input images MOON paper
 img_width, img_height, depth = 224,224,3
 img_input = Input(shape=(img_height,img_width,depth))
-nb_train_samples = 42553
-#nb_train_samples = 297803
+#nb_train_samples = 42553
+nb_train_samples = 297803
 nb_validation_samples = 4500
 #nb_validation_samples = 1200
 nb_epoch = 50
