@@ -133,11 +133,11 @@ def val_generator():
 # Block 1
 x = Conv2D(96, (11, 11), strides = (4,4), kernel_initializer='random_uniform',bias_initializer='zeros',data_format='channels_last', activation= 'relu',name='block1_conv1')(img_input)
 x = MaxPooling2D((3, 3), strides=(2, 2), name='block1_pool')(x)
-x = BatchNormalization(x)
+x = BatchNormalization()(x)
 
 x = Conv2D(256, (5,5), activation= 'relu',kernel_initializer='random_uniform',bias_initializer='zeros',name='block2_conv1')(x)
 x = MaxPooling2D((3, 3), strides=(2, 2), name='block2_pool')(x)
-x = BatchNormalization(x)
+x = BatchNormalization()(x)
 
 x = Conv2D(384, (3, 3), strides = (1,1), activation= 'relu', padding='same', kernel_initializer='random_uniform',bias_initializer='zeros',name='block3_conv1')(x)
 x = Conv2D(384, (3, 3), strides = (1,1), activation= 'relu', padding='same', kernel_initializer='random_uniform',bias_initializer='zeros',name='block3_conv2')(x)
