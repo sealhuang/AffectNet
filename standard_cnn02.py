@@ -22,8 +22,8 @@ from keras.callbacks import ModelCheckpoint
 # TODO: check on the size of input images MOON paper
 img_width, img_height, depth = 224,224,3
 img_input = Input(shape=(img_height,img_width,depth))
-nb_train_samples = 42553
-#nb_train_samples = 297803
+#nb_train_samples = 42553
+nb_train_samples = 297803
 nb_validation_samples = 4500
 #nb_validation_samples = 1200
 nb_epoch = 50
@@ -49,13 +49,12 @@ def train_generator():
         if((image_id+batch_size) > train_index_thr):
             image_id = 1
 
-
         while(image_count < batch_size and image_id < nb_train_samples):
             try:
                 if image_count <= 42553:
                     str_format = '.jpg'
-                #else:
-                #    str_format = '.jpeg'
+                else:
+                    str_format = '.jpeg'
 
                 filename = img_dir + '/image' + str(image_id).zfill(7) + str_format
                 body_img = image.load_img(filename, target_size=(img_height,img_width))
@@ -141,9 +140,9 @@ output_from_inception_model = Input(shape = (data_shape))
 base_model = Model(inputs = inception_model.input, outputs = inception_model.output,name='base_model')
 
 x = GlobalAveragePooling2D(name='avg_pool')(output_from_inception_model)
-x = Dense(512, activation='relu', name='t1_fc1',kernel_regularizer = regularizers.l2(0.001))(x)
+x = Dense(512, activation='relu', name='t1_fc1',kernel_regularizer = regularizers.l2(0.01))(x)
 #x = Dropout(0.6)(x)
-x = Dense(512, activation='relu', name='t1_fc2',kernel_regularizer = regularizers.l2(0.001))(x)
+x = Dense(512, activation='relu', name='t1_fc2',kernel_regularizer = regularizers.l2(0.01))(x)
 x = Dropout(0.6)(x)
 x = Dense(256, activation='relu', name='t1_fc3',kernel_regularizer = regularizers.l2(0.001))(x)
 x = Dropout(0.6)(x)
