@@ -9,7 +9,7 @@ from keras.layers import Dense, Dropout, Input, Lambda
 from keras import optimizers,regularizers
 from keras import backend as K
 from keras.layers import Conv2D, MaxPooling2D,concatenate,GlobalAveragePooling2D
-from keras.layers import Activation, Dropout, Flatten, Dense,Input
+from keras.layers import Activation, Dropout, Flatten, Dense,Input,BatchNormalization
 from keras.utils.data_utils import get_file
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import load_model
