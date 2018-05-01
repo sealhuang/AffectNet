@@ -139,9 +139,9 @@ x = Conv2D(256, (5,5), activation= 'relu',kernel_initializer='random_uniform',bi
 x = MaxPooling2D((3, 3), strides=(2, 2), name='block2_pool')(x)
 x = BatchNormalization()(x)
 
-x = Conv2D(384, (3, 3), strides = (1,1), activation= 'relu', padding='same', kernel_initializer='random_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.001),name='block3_conv1')(x)
-x = Conv2D(384, (3, 3), strides = (1,1), activation= 'relu', padding='same', kernel_initializer='random_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.001),name='block3_conv2')(x)
-x = Conv2D(256, (3, 3), strides = (1,1), activation= 'relu', padding='same', kernel_initializer='random_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.001),name='block3_conv3')(x)
+x = Conv2D(384, (3, 3), strides = (1,1), activation= 'relu', padding='same', kernel_initializer='random_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.0001),name='block3_conv1')(x)
+x = Conv2D(384, (3, 3), strides = (1,1), activation= 'relu', padding='same', kernel_initializer='random_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.0001),name='block3_conv2')(x)
+x = Conv2D(256, (3, 3), strides = (1,1), activation= 'relu', padding='same', kernel_initializer='random_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.0001),name='block3_conv3')(x)
 x = MaxPooling2D((3, 3), strides=(2, 2), name='block3_pool')(x)
 
 x = Flatten(name='flatten')(x)
@@ -151,7 +151,7 @@ predictions = Dense(9, activation='softmax', kernel_initializer='random_uniform'
 
 final_model = Model(inputs = img_input,outputs = predictions)
 
-optimizer_adam = optimizers.Adam(lr = 0.0001)
+optimizer_adam = optimizers.Adam(lr = 0.00001)
 optimizer_rmsprop = optimizers.RMSprop(lr=0.00001)
 final_model.compile(loss='categorical_crossentropy',
               optimizer=optimizer_adam,
