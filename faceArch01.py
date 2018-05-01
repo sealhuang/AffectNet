@@ -131,7 +131,7 @@ def val_generator():
 
 # Build the model
 # Block 1
-x = Conv2D(96, (11, 11), strides = (4,4), kernel_initializer='random_uniform',bias_initializer='zeros',data_format='channels_last', activation= 'relu',name='block1_conv1')(img_input)
+x = Conv2D(96, (11, 11), strides = (4,4), kernel_initializer='random_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.0001),data_format='channels_last', activation= 'relu',name='block1_conv1')(img_input)
 x = MaxPooling2D((3, 3), strides=(2, 2), name='block1_pool')(x)
 x = BatchNormalization()(x)
 
@@ -139,14 +139,14 @@ x = Conv2D(256, (5,5), activation= 'relu',kernel_initializer='random_uniform',bi
 x = MaxPooling2D((3, 3), strides=(2, 2), name='block2_pool')(x)
 x = BatchNormalization()(x)
 
-x = Conv2D(384, (3, 3), strides = (1,1), activation= 'relu', padding='same', kernel_initializer='random_uniform',bias_initializer='zeros',name='block3_conv1')(x)
-x = Conv2D(384, (3, 3), strides = (1,1), activation= 'relu', padding='same', kernel_initializer='random_uniform',bias_initializer='zeros',name='block3_conv2')(x)
-x = Conv2D(256, (3, 3), strides = (1,1), activation= 'relu', padding='same', kernel_initializer='random_uniform',bias_initializer='zeros',name='block3_conv3')(x)
+x = Conv2D(384, (3, 3), strides = (1,1), activation= 'relu', padding='same', kernel_initializer='random_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.001),name='block3_conv1')(x)
+x = Conv2D(384, (3, 3), strides = (1,1), activation= 'relu', padding='same', kernel_initializer='random_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.001),name='block3_conv2')(x)
+x = Conv2D(256, (3, 3), strides = (1,1), activation= 'relu', padding='same', kernel_initializer='random_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.001),name='block3_conv3')(x)
 x = MaxPooling2D((3, 3), strides=(2, 2), name='block3_pool')(x)
 
 x = Flatten(name='flatten')(x)
-x = Dense(1024, activation='relu',kernel_initializer='random_uniform',bias_initializer='zeros', name='fc1')(x)
-x = Dense(512, activation='relu', kernel_initializer='random_uniform',bias_initializer='zeros',name='fc2')(x)
+x = Dense(1024, activation='relu',kernel_initializer='random_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.0001), name='fc1')(x)
+x = Dense(512, activation='relu', kernel_initializer='random_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.0001),name='fc2')(x)
 predictions = Dense(9, activation='softmax', kernel_initializer='random_uniform',bias_initializer='zeros',name='fc3')(x)
 
 final_model = Model(inputs = img_input,outputs = predictions)
