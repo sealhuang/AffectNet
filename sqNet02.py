@@ -22,8 +22,8 @@ from keras.callbacks import ModelCheckpoint
 
 img_width, img_height, depth = 227,227,3
 img_input = Input(shape=(img_height,img_width,depth))
-nb_train_samples = 42553
-nb_validation_samples = 4500
+nb_train_samples = 37553
+nb_validation_samples = 4000
 nb_epoch = 50
 batch_size = 64
 run_id = 2
@@ -39,13 +39,13 @@ test_datagen = ImageDataGenerator(rescale=1./255)
 #test_datagen = ImageDataGenerator()
 
 train_generator = train_datagen.flow_from_directory(
-        '../AffectNet/train_class',  # this is the target directory
+        '../class_dir/train_class',  # this is the target directory
         target_size=(227, 227),  # all images will be resized to 150x150
         batch_size=batch_size,
         class_mode='categorical')
 
 validation_generator = test_datagen.flow_from_directory(
-        '../AffectNet/val_class',
+        '../class_dir/val_class',
         target_size=(227,227),
         batch_size=batch_size,
         class_mode='categorical')
@@ -95,7 +95,7 @@ x = GlobalAveragePooling2D()(x)
 predictions = Activation('softmax',name='softmax001')(x)
 
 final_model = Model(inputs = img_input,outputs = predictions)
-#final_model.summary()
+final_model.summary()
 
 optimizer_adam = optimizers.Adam(lr = 0.001)
 final_model.compile(loss='categorical_crossentropy',
@@ -103,10 +103,10 @@ final_model.compile(loss='categorical_crossentropy',
               metrics=['accuracy'])
 
 # checkpoint
-outputFolder = './output-model-scratch'
+outputFolder = './output-model-scratch-sqnet02'
 if not os.path.exists(outputFolder):
     os.makedirs(outputFolder)
-filepath=outputFolder+"/weights_t1024_t512-{epoch:03d}-{val_acc:.4f}.hdf5"
+filepath=outputFolder+"/weights_l0.001_d0.02-{epoch:03d}-{val_acc:.4f}.hdf5"
 checkpoint = ModelCheckpoint(filepath, monitor='loss', verbose=1, \
                              save_best_only=False, save_weights_only=True, \
                              mode='auto', period=1)
@@ -120,3 +120,7 @@ n_steps_per_epoch = nb_train_samples/batch_size
 n_val_steps = nb_validation_samples/batch_size
 final_model.fit_generator(generator=train_generator,steps_per_epoch=n_steps_per_epoch,callbacks=callbacks_list, \
                           epochs=nb_epoch,validation_data = validation_generator,validation_steps=n_val_steps)
+
+final_model_json = final_model.to_json()
+with open("sqNet02_d0.02_json.json", "w") as json_file:
+    json_file.write(final_model_json)
