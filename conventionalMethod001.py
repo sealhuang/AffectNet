@@ -21,8 +21,8 @@ from keras.callbacks import ModelCheckpoint
 
 img_width, img_height, depth = 224,224,3
 img_input = Input(shape=(img_height,img_width,depth))
-nb_train_samples = 42553
-nb_validation_samples = 4500
+nb_train_samples = 37553
+nb_validation_samples = 4000
 nb_epoch = 50
 batch_size = 64
 
@@ -37,13 +37,13 @@ test_datagen = ImageDataGenerator(rescale=1./255)
 #test_datagen = ImageDataGenerator()
 
 train_generator = train_datagen.flow_from_directory(
-        '../AffectNet/train_class',  # this is the target directory
+        '../class_dir/train_class',  # this is the target directory
         target_size=(224, 224),  # all images will be resized to 150x150
         batch_size=batch_size,
         class_mode='categorical')
 
 validation_generator = test_datagen.flow_from_directory(
-        '../AffectNet/val_class',
+        '../class_dir/val_class',
         target_size=(224,224),
         batch_size=batch_size,
         class_mode='categorical')
@@ -97,3 +97,7 @@ n_steps_per_epoch = nb_train_samples/batch_size
 n_val_steps = nb_validation_samples/batch_size
 final_model.fit_generator(generator=train_generator,steps_per_epoch=n_steps_per_epoch,callbacks=callbacks_list, \
                           epochs=nb_epoch,validation_data = validation_generator,validation_steps=n_val_steps)
+
+final_model_json = final_model.to_json()
+with open("from_scratch_top_layer_1024_1024_512_dropout_0.5_json.json", "w") as json_file:
+    json_file.write(final_model_json)
