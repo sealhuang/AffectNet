@@ -62,7 +62,7 @@ def fire_module(fire_input, fire_id, squeeze, expand):
     tower01 = Dropout(0.2)(tower01)
 
     tower02 = Conv2DTranspose(expand, (1, 1), padding='same', kernel_initializer='glorot_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.0001),data_format='channels_last', activation= 'relu',name=s_id + 'd_exp1x1')(x)
-    tower02 = Conv2DTranspose(expand, (3, 3), padding='same', kernel_initializer='glorot_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.0001),data_format='channels_last', activation= 'relu',name=s_id + 'd_exp3x3')(tower01)
+    tower02 = Conv2DTranspose(expand, (3, 3), padding='same', kernel_initializer='glorot_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.0001),data_format='channels_last', activation= 'relu',name=s_id + 'd_exp3x3')(tower02)
     tower02 = Dropout(0.2)(tower02)
 
     y      = concatenate([tower01, tower02], axis=3, name=s_id + 'concat')
