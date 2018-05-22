@@ -101,7 +101,7 @@ predictions = Activation('softmax',name='softmax001')(x)
 final_model = Model(inputs = img_input,outputs = predictions)
 final_model.summary()
 
-optimizer_adam = optimizers.Adam(lr = 0.0001)
+optimizer_adam = optimizers.Adam(lr = 0.001)
 final_model.compile(loss='categorical_crossentropy',
               optimizer=optimizer_adam,
               metrics=['accuracy'])
