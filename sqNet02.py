@@ -55,7 +55,7 @@ def fire_module(fire_input, fire_id, squeeze, expand):
     s_id = 'fire' + str(fire_id) + '/'
 
     x      = Conv2D(squeeze, (1, 1), padding='same', kernel_initializer='glorot_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.0001),data_format='channels_last', activation= 'relu',name=s_id + 'sq1x1')(fire_input)
-    x      = BatchNormalization()(x)
+    #x      = BatchNormalization()(x)
 
     tower01 = Conv2D(expand, (1, 1), padding='same', kernel_initializer='glorot_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.0001),data_format='channels_last', activation= 'relu',name=s_id + 'exp1x1')(x)
     tower01 = Conv2D(expand, (3, 3), padding='same', kernel_initializer='glorot_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.0001),data_format='channels_last', activation= 'relu',name=s_id + 'exp3x3')(tower01)
@@ -71,19 +71,21 @@ def fire_module(fire_input, fire_id, squeeze, expand):
 #Build the network
 x = Conv2D(96, (7, 7), strides = (2,2), kernel_initializer='glorot_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.0001),data_format='channels_last', activation= 'relu',name='block1_conv1')(img_input)
 x = MaxPooling2D((3, 3), strides=(2, 2), name='pool01')(x)
-#x = BatchNormalization()(x)
+x = BatchNormalization()(x)
 
 x = fire_module(x, fire_id=2, squeeze=16, expand=64)
 x = fire_module(x, fire_id=3, squeeze=16, expand=64)
 x = fire_module(x, fire_id=4, squeeze=32, expand=128)
 x = MaxPooling2D((3, 3), strides=(2, 2), name='pool02')(x)
-#x = BatchNormalization()(x)
+x = BatchNormalization()(x)
 
 x = fire_module(x, fire_id=5, squeeze=32, expand=128)
+x = fire_module(x, fire_id=10, squeeze=32, expand=128)
 x = fire_module(x, fire_id=6, squeeze=48, expand=192)
-#x = MaxPooling2D((3, 3), strides=(2, 2), name='pool03')(x)
+x = MaxPooling2D((3, 3), strides=(2, 2), name='pool04')(x)
 x = fire_module(x, fire_id=7, squeeze=48, expand=192)
 x = fire_module(x, fire_id=8, squeeze=64, expand=256)
+x = fire_module(x, fire_id=11, squeeze=64, expand=256)
 x = MaxPooling2D((3, 3), strides=(2, 2), name='pool03')(x)
 x = fire_module(x, fire_id=9, squeeze=64, expand=256)
 x = Dropout(0.5)(x)
@@ -97,7 +99,7 @@ predictions = Activation('softmax',name='softmax001')(x)
 final_model = Model(inputs = img_input,outputs = predictions)
 final_model.summary()
 
-optimizer_adam = optimizers.Adam(lr = 0.0001)
+optimizer_adam = optimizers.Adam(lr = 0.001)
 final_model.compile(loss='categorical_crossentropy',
               optimizer=optimizer_adam,
               metrics=['accuracy'])
@@ -106,7 +108,7 @@ final_model.compile(loss='categorical_crossentropy',
 outputFolder = './output-model-scratch-sqnet02'
 if not os.path.exists(outputFolder):
     os.makedirs(outputFolder)
-filepath=outputFolder+"/weights_l0.0001_d0.02-{epoch:03d}-{val_acc:.4f}.hdf5"
+filepath=outputFolder+"/weights_l0.001_d0.02-{epoch:03d}-{val_acc:.4f}.hdf5"
 checkpoint = ModelCheckpoint(filepath, monitor='loss', verbose=1, \
                              save_best_only=False, save_weights_only=True, \
                              mode='auto', period=1)
