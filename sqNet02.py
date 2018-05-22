@@ -71,13 +71,13 @@ def fire_module(fire_input, fire_id, squeeze, expand):
 #Build the network
 x = Conv2D(96, (7, 7), strides = (2,2), kernel_initializer='glorot_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.0001),data_format='channels_last', activation= 'relu',name='block1_conv1')(img_input)
 x = MaxPooling2D((3, 3), strides=(2, 2), name='pool01')(x)
-x = BatchNormalization()(x)
+#x = BatchNormalization()(x)
 
 x = fire_module(x, fire_id=2, squeeze=16, expand=64)
 x = fire_module(x, fire_id=3, squeeze=16, expand=64)
 x = fire_module(x, fire_id=4, squeeze=32, expand=128)
 x = MaxPooling2D((3, 3), strides=(2, 2), name='pool02')(x)
-x = BatchNormalization()(x)
+#x = BatchNormalization()(x)
 
 x = fire_module(x, fire_id=5, squeeze=32, expand=128)
 x = fire_module(x, fire_id=10, squeeze=32, expand=128)
