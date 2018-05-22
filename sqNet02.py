@@ -55,7 +55,7 @@ def fire_module(fire_input, fire_id, squeeze, expand):
     s_id = 'fire' + str(fire_id) + '/'
 
     x      = Conv2D(squeeze, (1, 1), padding='same', kernel_initializer='glorot_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.0001),data_format='channels_last', activation= 'relu',name=s_id + 'sq1x1')(fire_input)
-    #x      = BatchNormalization()(x)
+    x      = BatchNormalization()(x)
 
     tower01 = Conv2D(expand, (1, 1), padding='same', kernel_initializer='glorot_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.0001),data_format='channels_last', activation= 'relu',name=s_id + 'exp1x1')(x)
     tower01 = Conv2D(expand, (3, 3), padding='same', kernel_initializer='glorot_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.0001),data_format='channels_last', activation= 'relu',name=s_id + 'exp3x3')(tower01)
@@ -91,7 +91,7 @@ x = MaxPooling2D((3, 3), strides=(2, 2), name='pool03')(x)
 x = fire_module(x, fire_id=9, squeeze=64, expand=256)
 x = Dropout(0.5)(x)
 
-x = Conv2D(64, (3, 3), strides = (1,1), kernel_initializer='glorot_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.0001),data_format='channels_last', activation= 'relu',name='conv11')(x)
+#x = Conv2D(64, (3, 3), strides = (1,1), kernel_initializer='glorot_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.0001),data_format='channels_last', activation= 'relu',name='conv11')(x)
 x = Conv2D(8, (1, 1), padding='same', kernel_initializer='glorot_uniform',bias_initializer='zeros',kernel_regularizer = regularizers.l2(0.0001),data_format='channels_last', activation= 'relu',name='conv10')(x)
 x = GlobalAveragePooling2D()(x)
 #x = AveragePooling2D((13,13),name='avg_pool001')(x)
@@ -101,7 +101,7 @@ predictions = Activation('softmax',name='softmax001')(x)
 final_model = Model(inputs = img_input,outputs = predictions)
 final_model.summary()
 
-optimizer_adam = optimizers.Adam(lr = 0.001)
+optimizer_adam = optimizers.Adam(lr = 0.0001)
 final_model.compile(loss='categorical_crossentropy',
               optimizer=optimizer_adam,
               metrics=['accuracy'])
